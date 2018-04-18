@@ -13,14 +13,21 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private TextView textView ;
+    private TextView txtVadmin;
+    private TextView txtVlocal;
+
     private Geocoder geocoder ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         geocoder = new Geocoder(this);
         setContentView(R.layout.activity_main);
-        textView = findViewById(R.id.textView2);
+        textView = findViewById(R.id.textView);
         textView.setText("위도 127.031266 , 경도 37.499207");
+
+        txtVadmin = findViewById(R.id.textView2);
+        txtVlocal = findViewById(R.id.textView3);
+
     }
     public void getAdress(){
         double d1 = 37.499;//위도
@@ -28,6 +35,13 @@ public class MainActivity extends AppCompatActivity {
         List<Address> list =null;
         try {
             list = geocoder.getFromLocation(d1,d2,10);
+            list.get(0).getUrl();
+            String admin = list.get(0).getAdminArea();
+            String local = list.get(0).getLocality();
+            txtVadmin.setText(admin);
+            txtVlocal.setText(local);
+
+
         } catch (IOException e) {
             e.printStackTrace();
             Log.e("exception","애러다 ");
@@ -44,4 +58,5 @@ public class MainActivity extends AppCompatActivity {
     public void onClickButton(View view) {
         getAdress();
     }
+
 }
